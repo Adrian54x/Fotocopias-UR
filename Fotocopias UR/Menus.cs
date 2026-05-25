@@ -19,5 +19,17 @@ namespace Fotocopias_UR
             Console.WriteLine("0. Salir.");
             Console.Write("Elija una opcion:");
         }
+
+        public void MenuProductos()
+        {
+            Console.Clear();
+            Console.WriteLine("--- Productos ---");
+            Console.WriteLine("1. Agregar producto");
+            Console.WriteLine("2. Ver todos los productos");
+            Console.WriteLine("3. Buscar Productos");
+            Console.WriteLine("4. Eliminar Productos");
+            Console.WriteLine("0. Regresar.");
+            Console.Write("Elija una opcion:");
+        }
     }
 }
