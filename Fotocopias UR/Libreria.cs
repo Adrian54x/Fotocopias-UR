@@ -33,7 +33,7 @@ namespace Fotocopias_UR
             get { return nombreProducto; }
             set
             {
-                if (value.Length > 2)
+                if (value.Length >= 3)
                     nombreProducto = value;
                 else
                     Console.WriteLine("Error nombre del producto no Valido!");
@@ -69,7 +69,7 @@ namespace Fotocopias_UR
             get { return marca; }
             set
             {
-                if (value.Length > 2)
+                if (value.Length >= 3)
                     marca = value;
                 else
                     Console.WriteLine("Marca del producto no valida!");
@@ -122,12 +122,6 @@ namespace Fotocopias_UR
             Asignatura = asignatura;
             Descripcion = descripcion;
             Estado = estado;
-        }
-
-        public virtual void MostraeDatos()
-        {
-            Console.WriteLine($"\nCodigo:{codigoProducto} \nNombre:{nombreProducto} \nPrecio:{precio} \nUnidades disponibles:{unidadesDisponibles} \nMarca:{marca} " +
-                $"\nAsignatura:{asignatura} \nDescripcion:{descripcion} \nEstado:{estado} ");
         }
 
     }
