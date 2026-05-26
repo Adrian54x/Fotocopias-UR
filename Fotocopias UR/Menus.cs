@@ -31,5 +31,33 @@ namespace Fotocopias_UR
             Console.WriteLine("0. Regresar.");
             Console.Write("Elija una opcion:");
         }
+
+        public void OpcionProductos()
+        {
+            Console.WriteLine("1. Libreria");
+            Console.WriteLine("2. Tienda");
+            Console.WriteLine("0. regresar");
+            Console.Write("Elija una opcion:");
+        }
+
+        public void MenuUsuario()
+        {
+            Console.Clear();
+            Console.WriteLine("--- Usuario ---");
+            Console.WriteLine("1. Agregar Usuario");
+            Console.WriteLine("2. Ver Usuarios");
+            Console.WriteLine("3. Buscar Usuario");
+            Console.WriteLine("4. Eliminar Usuario");
+            Console.WriteLine("0. Regresar.");
+            Console.Write("Elija una opcion:");
+        }
+
+        public void OpcionUsuario()
+        {
+            Console.WriteLine("1. Trabajador");
+            Console.WriteLine("2. Administrador");
+            Console.WriteLine("0. Regresar.");
+            Console.Write("Elija una opcion:");
+        }
     }
 }

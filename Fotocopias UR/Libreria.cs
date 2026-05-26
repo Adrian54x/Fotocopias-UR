@@ -20,7 +20,8 @@ namespace Fotocopias_UR
             get { return codigoProducto; }
             set
             {
-                if (value.Contains("0"))
+                Inventario f = new Inventario();
+                if (value.StartsWith("0"))
                     codigoProducto = value;
                 else
                     Console.WriteLine("Error codigo de producto no valido!");
@@ -33,7 +34,17 @@ namespace Fotocopias_UR
             get { return nombreProducto; }
             set
             {
-                if (value.Length >= 3)
+                bool correcto = true;
+                string validar = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnÑñOoPpQqRrSsTtUuVvWwXxYyZzÚÓÍÉÁúóíéá ";
+                foreach (char c in value)
+                {
+                    if (!validar.Contains(c))
+                    {
+                        correcto = false;
+                        break;
+                    }
+                }
+                if (value.Length >= 3 && correcto)
                     nombreProducto = value;
                 else
                     Console.WriteLine("Error nombre del producto no Valido!");
