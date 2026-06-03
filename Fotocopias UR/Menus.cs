@@ -6,6 +6,49 @@ namespace Fotocopias_UR
 {
     internal class Menus
     {
+
+        public string MenuIngreso()
+        {;
+            Usuario buscar = new Usuario();
+            string usuarioIngreso, passIngreso, asignado = "";
+            int intentos = 5;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("=== Bienvenido al Sistema Fotocopias UR ===");
+                Console.Write("Ingrese su Usuario:");
+                usuarioIngreso = Console.ReadLine();
+                Console.Write("Ingrese su Contraseña:");
+                passIngreso = Console.ReadLine();
+                if (!buscar.BuscarValidacionAdmin(usuarioIngreso,passIngreso) && !buscar.BuscarValidacionTrabajador(usuarioIngreso,passIngreso))
+                {
+                    Console.Write("Usuario no encontrado!");
+                    Thread.Sleep(500);
+                    Console.Write("-----> Intente otra ves");
+                    Thread.Sleep(500);
+                    intentos--;
+                }
+                else
+                {
+                    if (buscar.BuscarValidacionAdmin(usuarioIngreso, passIngreso))
+                    {
+                        asignado = "Administrador";
+                        DatosGlobales.usuarioActivo = buscar.ExtraerConectado(usuarioIngreso, passIngreso);
+                    }
+                    if(buscar.BuscarValidacionTrabajador(usuarioIngreso, passIngreso))
+                    {
+                        asignado = "Trabajador";
+                    }
+                }
+                if (intentos == 0)
+                {
+                    Console.WriteLine("Llego al limite de intentos!");
+                    break;
+                }
+            } while (!buscar.BuscarValidacionAdmin(usuarioIngreso, passIngreso) && !buscar.BuscarValidacionTrabajador(usuarioIngreso, passIngreso));
+            return asignado;
+        }
+
         public void MenuAdmin()
         {
             Console.Clear();
@@ -54,8 +97,19 @@ namespace Fotocopias_UR
 
         public void OpcionUsuario()
         {
-            Console.WriteLine("1. Trabajador");
-            Console.WriteLine("2. Administrador");
+            Console.WriteLine("1. Administrador");
+            Console.WriteLine("2. Trabajador");
+            Console.WriteLine("0. Regresar.");
+            Console.Write("Elija una opcion:");
+        }
+
+        public void MenuIngresosEgresos()
+        {
+            Console.Clear();
+            Console.WriteLine("--- Ingresos y Egresos ---");
+            Console.WriteLine("1. Agregar Ingresos");
+            Console.WriteLine("2. Agregar Egresos");
+            Console.WriteLine("3. Ver resumen de ingresos y egresos");
             Console.WriteLine("0. Regresar.");
             Console.Write("Elija una opcion:");
         }

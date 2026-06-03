@@ -43,17 +43,12 @@ namespace Fotocopias_UR
             do
             {
                 SioNo = Console.ReadLine();
-                if (!(string.Equals(SioNo, "si", StringComparison.OrdinalIgnoreCase) || string.Equals(SioNo, "no", StringComparison.OrdinalIgnoreCase)))
-                {
-                    Error();
-                }
+                if (string.Equals(SioNo, "si", StringComparison.OrdinalIgnoreCase))
+                    SIoNO = true;
+                else if (string.Equals(SioNo, "no", StringComparison.OrdinalIgnoreCase))
+                    SIoNO = false;
                 else
-                {
-                    if (string.Equals(SioNo, "si", StringComparison.OrdinalIgnoreCase))
-                        SIoNO = true;
-                    else if (string.Equals(SioNo, "no", StringComparison.OrdinalIgnoreCase))
-                        SIoNO = false;
-                }
+                    Error();
             } while (!(string.Equals(SioNo, "si", StringComparison.OrdinalIgnoreCase) || string.Equals(SioNo, "no", StringComparison.OrdinalIgnoreCase)));
             return SIoNO;
         }
@@ -95,11 +90,90 @@ namespace Fotocopias_UR
             return codigoGenerado;
         }
 
+        public int CalcularEdad(string fecha)
+        {
+            DateTime fechaNacimento = DateTime.Parse(fecha);
+            int edad = DateTime.Today.Year - fechaNacimento.Year;
+            if (DateTime.Today.Day < fechaNacimento.Day && DateTime.Today.Month <= fechaNacimento.Month)
+            {
+                edad--;
+            }
+            return edad;
+        }
 
 
 
 
         // Opciones de ingreso
+
+        public string NumeroTelefono()
+        {
+            string telefono, validarNumero = "0123456987";
+            bool validarTelefono;
+            do
+            {
+                validarTelefono = false;
+                telefono = Console.ReadLine();
+                foreach (char tv in telefono)
+                {
+                    if (!validarNumero.Contains(tv))
+                    {
+                        validarTelefono = true;
+                        break;
+                    }
+                }
+                if (validarTelefono || telefono.Length < 8)
+                {
+                    Error();
+                }
+            } while (validarTelefono || telefono.Length < 8);
+            return telefono;
+        }
+
+        public DateTime FechaNacimiento()
+        {
+            DateTime fechaEdad;
+            do
+            {
+
+                if (!DateTime.TryParse(Console.ReadLine(), out fechaEdad) || (DateTime.Today.Year - fechaEdad.Year) < 14 || fechaEdad.Year < 1925)
+                {
+                    Error();
+                }
+            } while (!DateTime.TryParse(fechaEdad.ToString(), out DateTime x) || (DateTime.Today.Year - fechaEdad.Year) < 14 || fechaEdad.Year < 1925);
+            return fechaEdad;
+        }
+
+        public string PassWord()
+        {
+            string passValida, validMayusculas = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZÚÓÍÉÁ", vlidarNumeros = "1234567890";
+            int passNumeros, passMayusculas;
+            do
+            {
+                passNumeros = 0;
+                passMayusculas = 0;
+                passValida = Console.ReadLine();
+                if (passValida.Length >= 8 && passValida.Length <= 15)
+                {
+                    foreach (char v in passValida)
+                    {
+                        if (validMayusculas.Contains(v))
+                        {
+                            passMayusculas++;
+                        }
+                        if (vlidarNumeros.Contains(v))
+                        {
+                            passNumeros++;
+                        }
+                    }
+                }
+                if (passValida.Length < 8 || passValida.Length > 15 || passNumeros == 0 || passMayusculas == 0)
+                {
+                    Error();
+                }
+            } while (passValida.Length < 8 || passValida.Length > 15 || passNumeros == 0 || passMayusculas == 0);
+            return passValida;
+        }
 
         public double Precio()
         {
@@ -207,6 +281,51 @@ namespace Fotocopias_UR
             else
             {
                 return new Libreria(codigoProducto, nombreProducto, precio, unidadesDisponibles, marca, "Libreria", descripcion, estado);
+            }
+        }
+
+        public Administrador IngresoUsuarios(string asignadoA)
+        {
+            Usuario f = new Usuario();
+            int cantidadUsuarios = 0;
+            if(asignadoA == "Administrador")
+            {
+                cantidadUsuarios = f.ContarAdministradores();
+            }
+            else if (asignadoA == "Trabajador")
+            {
+                cantidadUsuarios = f.ContarTrabajadores();
+            }
+            string codigo;
+            do
+            {
+                codigo = "UR" + GeneradorCodigos(cantidadUsuarios);
+                cantidadUsuarios++;
+            } while ((asignadoA == "Administrador" && f.BuscarAdministrador(codigo)) || (asignadoA == "Trabajador" && f.BuscarTrabajador(codigo)));
+            Console.WriteLine($"Codigo:{codigo}");
+
+            ColorComentario($"(El {asignadoA} tiene que tener 3 o mas caracteres y solo contener letras )");
+            Console.Write("Usuario:");
+            string usuario = ValidarNombre();
+
+            ColorComentario("(La contraseña debe tener al menos 1 Mayuscula, 1 Numero y 8 a 15 Caracteres)");
+            Console.Write("Contraseña:");
+            string pass = PassWord();
+
+            ColorComentario("(Ejemplo de ingreso de fecha 1/1/2000)");
+            Console.Write("Fecha de nacimiento:");
+            DateTime fecha = FechaNacimiento();
+
+            if (asignadoA == "Administrador")
+            {
+                return new Administrador(codigo, usuario, pass, fecha, asignadoA);
+            }
+            else
+            {
+                ColorComentario("(el numero de telefono tiene que estar junto y teiene que tener 8 numeros minimo)");
+                Console.Write("Numero telefonico:");
+                string numeroTelefono = NumeroTelefono();
+                return new Trabajador(codigo, usuario, pass, fecha, asignadoA, numeroTelefono);
             }
         }
 

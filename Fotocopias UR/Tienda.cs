@@ -19,7 +19,6 @@ namespace Fotocopias_UR
                     Console.WriteLine("Fecha de vencimiento no valida!");
             }
         }
-
         public Tienda(string codigoProducto, string nombreProducto, double precio, int unidadesDisponibles, string marca, string asignatura, string descripcion, string estado, DateTime fechaVencimiento)
             : base(codigoProducto, nombreProducto, precio, unidadesDisponibles, marca, asignatura, descripcion, estado)
         {

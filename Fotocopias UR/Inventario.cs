@@ -25,13 +25,13 @@ namespace Fotocopias_UR
 
         public void CrearTablaTienda()
         {
-            using (SQLiteConnection ctl = new SQLiteConnection(conexionInventarioTienda))
+            using (SQLiteConnection ctt = new SQLiteConnection(conexionInventarioTienda))
             {
-                ctl .Open();
+                ctt .Open();
                 string sqlLibreria = @"CREATE TABLE IF NOT EXISTS InventarioTienda(Codigo TEXT PRIMARY KEY NOT NULL, Nombre TEXT NOT NULL, Precio REAL NOT NULL, 
                                        UnidadesDisponibles INTEGER NOT NULL, Marca TEXT NOT NULL, Asignatura TEXT NOT NULL, Descripcion TEXT , 
                                        Estado TEXT NOT NULL,FechaVencimiento TEXT NOT NULL);";
-                SQLiteCommand crearTienda = new SQLiteCommand(sqlLibreria, ctl);
+                SQLiteCommand crearTienda = new SQLiteCommand(sqlLibreria, ctt);
                 crearTienda.ExecuteNonQuery();
             }
         }
