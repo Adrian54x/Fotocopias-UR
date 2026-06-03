@@ -7,6 +7,7 @@ Menus menus = new Menus();
 Funciones funciones = new Funciones();
 Inventario inventario = new Inventario();
 Usuario usuario = new Usuario();
+Argumentos argumentos = new Argumentos();
 bool menu = true;
 do
 { 
@@ -16,6 +17,8 @@ do
         inventario.CrearTablaTienda();
         usuario.CrearTablaAdmisitrador();
         usuario.CrearTablaTrabajador();
+        argumentos.CrearTablaComentarios();
+        argumentos.CrearTablasIngresosEgresos();
         int menuPrincipal, subMenus, opcion;
         if (usuario.ContarAdministradores() == 0)
         {
@@ -340,7 +343,7 @@ do
                                                 string eliminarAdmin = Console.ReadLine();
                                                 if (eliminarAdmin != "UR00")
                                                 {
-                                                    if (DatosGlobales.usuarioActivo != eliminarAdmin)
+                                                    if (DatosGlobales.usuarioActivoCodigo != eliminarAdmin)
                                                     {
                                                         usuario.EliminarUsuario(eliminarAdmin, asignaturas.asignatura[0]);
                                                     }
@@ -383,22 +386,89 @@ do
                             Console.Clear();
                             menus.MenuIngresosEgresos();
                             subMenus = funciones.ValidarMenu();
-                            switch(subMenus)
+                            Console.Clear();
+                            switch (subMenus)
                             { 
                                 case 0:
                                     funciones.Regresar();
                                     break;
 
                                 case 1:
-                                    Console.WriteLine("--- Agregar Ingresos ---");
-                                string fecha, cantidad, movito, echoPor;
+                                    do
+                                    {
+                                        Console.Clear();
+                                        Console.WriteLine("--- Agregar Ingresos y Egresos ---");
+                                        menus.OpcionIngresosEgresos();
+                                        opcion = funciones.ValidarMenu();
+                                        Console.Clear();
+                                        switch (opcion)
+                                        {
+                                            case 0:
+                                                funciones.Regresar();
+                                                break;
+                                            case 1:
+                                                Console.WriteLine("--- Ingresos ---");
+                                                argumentos.AgregarIngresosEgresosOComentarios(asignaturas.comentarios[1], funciones.IngresosEgresosYComentario(asignaturas.comentarios[1]));
+                                                break;
+                                            case 2:
+                                            Console.WriteLine("--- Egresos ---");
+                                            argumentos.AgregarIngresosEgresosOComentarios(asignaturas.comentarios[2], funciones.IngresosEgresosYComentario(asignaturas.comentarios[2]));
+                                                break;
+                                            default:
+                                                funciones.OpcionNoExistente();
+                                                break;
+                                        }
+                                    } while (opcion != 0);
                                     break;
 
                                 case 2:
-                                    Console.WriteLine("2. Agregar Egresos");
-                                    break;
+                                    Console.WriteLine("--- Ver resumen de ingresos y egresos ---");
+                                    Console.WriteLine("\n*** Ingresos ***");
+                                    argumentos.MostrarIngresosEgresosYComentarios(asignaturas.comentarios[1]);
+                                    Console.WriteLine("\n*** Egresos ***");
+                                    argumentos.MostrarIngresosEgresosYComentarios(asignaturas.comentarios[2]);
+                                    Console.WriteLine("\n*** Resumen ***");
+                                    Console.WriteLine($"Total Ingresos:Q{argumentos.ExtraerIngresosEgresos(asignaturas.comentarios[1])}");
+                                    Console.WriteLine($"Total Egresos:Q{argumentos.ExtraerIngresosEgresos(asignaturas.comentarios[2])}");
+                                    Console.WriteLine($"Total:Q{argumentos.ExtraerIngresosEgresos(asignaturas.comentarios[1]) - argumentos.ExtraerIngresosEgresos(asignaturas.comentarios[2])}");
+                                    Console.WriteLine("\nPrecione culquier tecla para continuar");
+                                    Console.ReadKey();
+                                break;
+
                                 case 3:
-                                    Console.WriteLine("3. Ver resumen de ingresos y egresos");
+                                do
+                                {
+                                    Console.Clear();
+                                    Console.WriteLine("-- Eliminar Ingreso o Egreso ---");
+                                    menus.OpcionIngresosEgresos();
+                                    opcion = funciones.ValidarMenu();
+                                    Console.Clear();
+                                    switch(opcion)
+                                    {
+                                        case 0:
+                                            funciones.Regresar();
+                                            break;
+                                        case 1:
+                                            Console.WriteLine("--- Ingresos ---");
+                                            Console.Write("Codigo:");
+                                            string eliminarIngreso = Console.ReadLine();
+                                            argumentos.EliminarIngresoEgresoYComentario(eliminarIngreso, asignaturas.comentarios[1]);
+                                            Console.WriteLine("\nPrecione culquier tecla para continuar");
+                                            Console.ReadKey();
+                                            break;
+                                        case 2:
+                                            Console.WriteLine("--- Egresos ---");
+                                            Console.Write("Codigo:");
+                                            string eliminarEgreso = Console.ReadLine();
+                                            argumentos.EliminarIngresoEgresoYComentario(eliminarEgreso, asignaturas.comentarios[2]);
+                                            Console.WriteLine("\nPrecione culquier tecla para continuar");
+                                            Console.ReadKey();
+                                            break;
+                                        default:
+                                            funciones.OpcionNoExistente();
+                                            break;
+                                    }
+                                } while (opcion != 0);
                                     break;
 
                                 default:
@@ -409,7 +479,14 @@ do
                         break;
 
                     case 4:
+                        do
+                        {
+                            Console.Clear();
+                            menus.MenuFotocopiadora();
+                            subMenus = funciones.ValidarMenu();
+                        } while (subMenus != 0);
                         break;
+
                     case 5:
                         break;
                     case 6:
@@ -439,7 +516,7 @@ do
 
 public class DatosGlobales
 {
-   public string[] asignatura = { "Administrador", "Trabajador" }, producto = { "Libreria", "Tienda" }, estado = { "Activo", "Inactivo" };
-   public static string usuarioActivo = "";
+   public string[] asignatura = { "Administrador", "Trabajador" }, producto = { "Libreria", "Tienda" }, estado = { "Activo", "Inactivo" }, comentarios = { "Comentario", "Ingreso", "Egreso" };
+   public static string usuarioActivoCodigo = "", usuarioActivoNombre = "";
         
 }

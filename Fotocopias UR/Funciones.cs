@@ -106,6 +106,54 @@ namespace Fotocopias_UR
 
         // Opciones de ingreso
 
+        public double CantidadIngresoEgreso()
+        {
+            double aprovado;
+            string cantidad, nums = "0.123456789";
+            int cont;
+            bool valCantidad, punto;
+            do
+            {
+                cont = 0;
+                punto = false;
+                valCantidad = true;
+                cantidad = Console.ReadLine();
+                foreach(char c in cantidad)
+                {
+                    if(!nums.Contains(c))
+                    {
+                        valCantidad = false;
+                        break;
+                    }
+                    if(c == '.')
+                    {
+                        punto = true;
+                    }
+                    if (punto)
+                    {
+                        cont++;
+                    }
+                }
+                if(!double.TryParse(cantidad, out aprovado) || !valCantidad || cont > 3)
+                    Error();
+            } while (!double.TryParse(cantidad, out aprovado) || !valCantidad || cont > 3);
+            return aprovado;
+        }
+
+
+        public DateTime FechaArgumento()
+        {
+            DateTime fechaArgumento;
+            do
+            {
+                if (!DateTime.TryParse(Console.ReadLine(), out fechaArgumento) || fechaArgumento.Date > DateTime.Today || fechaArgumento.Year <= 2022)
+                {
+                    Error();
+                }
+            } while (!DateTime.TryParse(fechaArgumento.ToString(), out DateTime x) || fechaArgumento.Date > DateTime.Today || fechaArgumento.Year <= 2022);
+            return fechaArgumento;
+        }
+
         public string NumeroTelefono()
         {
             string telefono, validarNumero = "0123456987";
@@ -177,12 +225,35 @@ namespace Fotocopias_UR
 
         public double Precio()
         {
+            bool valPrecio, val;
+            int cont;
+            string precio, nums = "0.123456789";
             double validarPrecio;
             do
             {
-                if (!double.TryParse(Console.ReadLine(), out validarPrecio) || validarPrecio != Math.Round(validarPrecio, 2) || validarPrecio < 0)
+                val = false;
+                valPrecio = true;
+                cont = 0;
+                precio = Console.ReadLine();
+                foreach(char p in precio)
+                {
+                    if(!nums.Contains(p))
+                    {
+                        valPrecio = false;
+                        break;
+                    }
+                    if(p == '.')
+                    {
+                        val = true;
+                    }
+                    if(val)
+                    {
+                        cont++;
+                    }
+                }
+                if (!double.TryParse(precio, out validarPrecio) || !valPrecio || cont > 3)
                     Error();
-            } while (!double.TryParse(validarPrecio.ToString(), out double x) || validarPrecio != Math.Round(validarPrecio, 2) || validarPrecio < 0);
+            } while (!double.TryParse(precio, out validarPrecio) || !valPrecio || cont > 3);
             return validarPrecio;
         }
 
@@ -327,6 +398,39 @@ namespace Fotocopias_UR
                 string numeroTelefono = NumeroTelefono();
                 return new Trabajador(codigo, usuario, pass, fecha, asignadoA, numeroTelefono);
             }
+        }
+
+        public Comentarios IngresosEgresosYComentario(string tipo)
+        {
+            DatosGlobales glo = new DatosGlobales();
+            DateTime fecha = DateTime.Now;
+            string echoPor = DatosGlobales.usuarioActivoNombre;
+            Console.WriteLine($"Realizado por:{echoPor}");
+            if (tipo == glo.comentarios[0])
+            {
+                fecha = DateTime.Today;
+                Console.WriteLine($"Fecha:{fecha}");
+            }
+            if (tipo == glo.comentarios[1] || tipo == glo.comentarios[2])
+            {
+                ColorComentario("(ejemplo de fecha 2/2/2000)");
+                Console.Write("Fecha:");
+                fecha = FechaArgumento();
+            }
+            double cantidad = 0;
+            if (tipo == glo.comentarios[1] || tipo == glo.comentarios[2])
+            {
+                ColorComentario("(La cantidad tiene que ser mayor a 0 y maximo 2 decimales )");
+                Console.Write("Cantidad:Q");
+                cantidad = CantidadIngresoEgreso();
+            }
+            ColorComentario("(La descripcion tiene que tener mas de 5 letras)");
+            Console.Write("Descripcion:");
+            string movito = ValidarTexto(5);
+            if (tipo == glo.comentarios[0])
+                return new Comentarios(fecha,movito,echoPor);
+            else
+                return new IngresoEgreso(fecha, movito, echoPor,cantidad);
         }
 
     }

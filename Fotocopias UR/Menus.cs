@@ -33,7 +33,8 @@ namespace Fotocopias_UR
                     if (buscar.BuscarValidacionAdmin(usuarioIngreso, passIngreso))
                     {
                         asignado = "Administrador";
-                        DatosGlobales.usuarioActivo = buscar.ExtraerConectado(usuarioIngreso, passIngreso);
+                        DatosGlobales.usuarioActivoCodigo = buscar.ExtraerConectado(usuarioIngreso, passIngreso);
+                        DatosGlobales.usuarioActivoNombre = usuarioIngreso;
                     }
                     if(buscar.BuscarValidacionTrabajador(usuarioIngreso, passIngreso))
                     {
@@ -107,11 +108,31 @@ namespace Fotocopias_UR
         {
             Console.Clear();
             Console.WriteLine("--- Ingresos y Egresos ---");
-            Console.WriteLine("1. Agregar Ingresos");
-            Console.WriteLine("2. Agregar Egresos");
-            Console.WriteLine("3. Ver resumen de ingresos y egresos");
+            Console.WriteLine("1. Agregar Ingresos y Egresos");
+            Console.WriteLine("2. Ver resumen de ingresos y egresos");
+            Console.WriteLine("3. Eliminar Ingreso o Egreso");
             Console.WriteLine("0. Regresar.");
             Console.Write("Elija una opcion:");
         }
+
+        public void OpcionIngresosEgresos()
+        {
+            Console.WriteLine("1. Ingresos ");
+            Console.WriteLine("2. Egresos");
+            Console.WriteLine("0. Regresar.");
+            Console.Write("Elija una opcion:");
+        }
+
+        public void MenuFotocopiadora()
+        {
+            Console.Clear();
+            Console.WriteLine("--- Fotocopiadora ---");
+            Console.WriteLine("1. Ver suministros");
+            Console.WriteLine("2. Fotocopias Sacadas");
+            Console.WriteLine("3. Porcentaje de toner Actual");
+            Console.WriteLine("0. Regresar.");
+            Console.Write("Elija una opcion:");
+        }
+
     }
 }
