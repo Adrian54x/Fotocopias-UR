@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Text;
 
-namespace Fotocopias_UR
+namespace Fotocopias_UR.ProductosUR
 {
     internal class Inventario
     {

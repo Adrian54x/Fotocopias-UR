@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Fotocopias_UR.UsuariosUR;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Fotocopias_UR
+namespace Fotocopias_UR.GeneralUR
 {
     internal class Menus
     {
@@ -127,9 +128,28 @@ namespace Fotocopias_UR
         {
             Console.Clear();
             Console.WriteLine("--- Fotocopiadora ---");
-            Console.WriteLine("1. Ver suministros");
-            Console.WriteLine("2. Fotocopias Sacadas");
+            Console.WriteLine("1. Suministros");
+            Console.WriteLine("2. Fotocopias");
             Console.WriteLine("3. Porcentaje de toner Actual");
+            Console.WriteLine("0. Regresar.");
+            Console.Write("Elija una opcion:");
+        }
+
+        public void OpcionSuministros()
+        {
+            Console.WriteLine("--- Suministros ---");
+            Console.WriteLine("1. Agregar suministro");
+            Console.WriteLine("2. Ver suministros");
+            Console.WriteLine("0. Regresar.");
+            Console.Write("Elija una opcion:");
+        }
+
+        public void OpcionFotocopias()
+        {
+            Console.WriteLine("--- Fotocopias ---");
+            Console.WriteLine("1. Agregar fotocopias totales");
+            Console.WriteLine("2. Agragar fotocopias sacadas por semana");
+            Console.WriteLine("3. Ver fotocopias sacadas por semana");
             Console.WriteLine("0. Regresar.");
             Console.Write("Elija una opcion:");
         }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Fotocopias_UR
+namespace Fotocopias_UR.UsuariosUR
 {
     internal class Administrador
     {

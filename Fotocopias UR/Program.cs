@@ -1,4 +1,7 @@
 ﻿using Fotocopias_UR;
+using Fotocopias_UR.GeneralUR;
+using Fotocopias_UR.ProductosUR;
+using Fotocopias_UR.UsuariosUR;
 using System.Diagnostics;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -484,6 +487,20 @@ do
                             Console.Clear();
                             menus.MenuFotocopiadora();
                             subMenus = funciones.ValidarMenu();
+                            switch(subMenus)
+                            { 
+                                case 0:
+                                    funciones.Regresar();
+                                    break;
+
+                                case 1:
+                                    break;
+                                case 2: 
+                                case 3:
+                                default:
+                                funciones.OpcionNoExistente();
+                                    break;
+                            }
                         } while (subMenus != 0);
                         break;
 
@@ -513,10 +530,3 @@ do
      //   Thread.Sleep(2000);
     //}
 } while (menu);
-
-public class DatosGlobales
-{
-   public string[] asignatura = { "Administrador", "Trabajador" }, producto = { "Libreria", "Tienda" }, estado = { "Activo", "Inactivo" }, comentarios = { "Comentario", "Ingreso", "Egreso" };
-   public static string usuarioActivoCodigo = "", usuarioActivoNombre = "";
-        
-}

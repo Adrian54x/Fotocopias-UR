@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Fotocopias_UR.ProductosUR;
+using Fotocopias_UR.UsuariosUR;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Fotocopias_UR
+namespace Fotocopias_UR.GeneralUR
 {
     internal class Funciones
     {
