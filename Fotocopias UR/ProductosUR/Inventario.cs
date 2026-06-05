@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fotocopias_UR.GeneralUR;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Text;
@@ -9,6 +10,7 @@ namespace Fotocopias_UR.ProductosUR
     {
         private string conexionInventarioLibreria = "Data Source = Libreria.db";
         private string conexionInventarioTienda = "Data Source = Tienda.db";
+        private DatosGlobales g = new DatosGlobales();
 
         //Crear tablas
         public void CrearTablaLibreria()
@@ -243,5 +245,61 @@ namespace Fotocopias_UR.ProductosUR
                     Console.WriteLine("Producto no encontrado");
             }
         }
+
+        //Modificar Productos
+
+        public void ModificarProducto(string asignado, string codigo, int unidad)
+        {
+            string modificar = "", conexion = "";
+            if (asignado == g.producto[0])
+            {
+                modificar = "SELECT UnidadesDisponibles FROM InventarioLibreria WHERE Codigo = @codigo";
+                conexion = conexionInventarioLibreria;
+            }
+            if(asignado == g.producto[1])
+            {
+                modificar = "SELECT UnidadesDisponibles FROM InventarioTienda WHERE Codigo = @codigo";
+                conexion = conexionInventarioTienda;
+            }
+            using (SQLiteConnection mp = new SQLiteConnection(conexion))
+            {
+                mp.Open();
+                SQLiteCommand comandoMod = new SQLiteCommand(modificar, mp);
+                comandoMod.Parameters.AddWithValue("@codigo", codigo);
+                comandoMod.Parameters.AddWithValue("@unidadesDisponibles", unidad);
+                comandoMod.ExecuteNonQuery();
+            }
+        }
+
+        //Extraer Cantidad de producto
+
+        public int ExtraerCantidadProducto(string asignado, string codigo)
+        {
+            string conexion = "", extraer = "";
+            int disponibles = 0;
+            if (asignado == g.producto[0])
+            {
+                extraer = "SELECT UnidadesDisponibles FROM InventarioLibreria WHERE Codigo = @codigo";
+                conexion = conexionInventarioLibreria;
+            }
+            if (asignado == g.producto[1])
+            {
+                extraer = "SELECT UnidadesDisponibles FROM InventarioTienda WHERE Codigo = @codigo";
+                conexion = conexionInventarioTienda;
+            }
+            using (SQLiteConnection ecp = new SQLiteConnection(conexion))
+            {
+                ecp.Open();
+                SQLiteCommand comandoExtraer = new SQLiteCommand(extraer, ecp);
+                comandoExtraer.Parameters.AddWithValue("@codigo", codigo);
+                SQLiteDataReader extraerP = comandoExtraer.ExecuteReader();
+                if (extraerP.Read())
+                {
+                    disponibles = int.Parse(extraerP["UnidadesDisponibles"].ToString());
+                }
+            }
+            return disponibles;
+        }
+
     }
 }

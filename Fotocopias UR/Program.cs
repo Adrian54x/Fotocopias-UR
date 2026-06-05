@@ -1,4 +1,5 @@
-﻿using Fotocopias_UR;
+﻿using Fotocopias_UR.ArgumentosUR;
+using Fotocopias_UR.FotocopiadoraUR;
 using Fotocopias_UR.GeneralUR;
 using Fotocopias_UR.ProductosUR;
 using Fotocopias_UR.UsuariosUR;
@@ -11,17 +12,21 @@ Funciones funciones = new Funciones();
 Inventario inventario = new Inventario();
 Usuario usuario = new Usuario();
 Argumentos argumentos = new Argumentos();
+Fotocopiadora fotocopias = new Fotocopiadora();
 bool menu = true;
 do
 { 
-    //try
-    //{
+    try
+    {
         inventario.CrearTablaLibreria();
         inventario.CrearTablaTienda();
         usuario.CrearTablaAdmisitrador();
         usuario.CrearTablaTrabajador();
         argumentos.CrearTablaComentarios();
         argumentos.CrearTablasIngresosEgresos();
+        fotocopias.CrearTablaToner();
+        fotocopias.CrearTablaResmas();
+        fotocopias.CrearTablaCopias();
         int menuPrincipal, subMenus, opcion;
         if (usuario.ContarAdministradores() == 0)
         {
@@ -42,6 +47,8 @@ do
             DateTime fecha0 = funciones.FechaNacimiento();
 
             usuario.AgregarUsuario(new Administrador(codigo0, usuario0, pass0, fecha0, asignaturas.asignatura[0]));
+            Console.WriteLine("Operacion realizada!");
+            Thread.Sleep(300);
         }
         string asignado = menus.MenuIngreso();
         menu = true;
@@ -94,11 +101,15 @@ do
                                             case 1:
                                                 Console.WriteLine("--- Libreria ---");
                                                 inventario.AgregarProductos(funciones.IngresoProductos(asignaturas.producto[0],asignaturas.estado[0]));
+                                                Console.WriteLine("Operacion realizada!");
+                                                Thread.Sleep(300);
                                                 break;
 
                                             case 2:
                                                 Console.WriteLine("--- Tienda ---");
                                                 inventario.AgregarProductos(funciones.IngresoProductos(asignaturas.producto[1], asignaturas.estado[0]));
+                                                Console.WriteLine("Operacion realizada!");
+                                                Thread.Sleep(300);
                                                 break;
                                             default:
                                                 funciones.OpcionNoExistente();
@@ -252,10 +263,14 @@ do
                                             case 1:
                                                 Console.WriteLine("--- Administrador ---");
                                                 usuario.AgregarUsuario(funciones.IngresoUsuarios(asignaturas.asignatura[0]));
+                                                Console.WriteLine("Operacion realizada!");
+                                                Thread.Sleep(300);
                                                 break;
                                             case 2:
                                                 Console.WriteLine("--- Trabajador ---");
                                                 usuario.AgregarUsuario(funciones.IngresoUsuarios(asignaturas.asignatura[1]));
+                                                Console.WriteLine("Operacion realizada!");
+                                                Thread.Sleep(300);
                                                 break;
 
                                             default:
@@ -341,6 +356,7 @@ do
                                             case 0:
                                                 funciones.Regresar();
                                                 break;
+
                                             case 1:
                                                 Console.Write("Codigo:");
                                                 string eliminarAdmin = Console.ReadLine();
@@ -361,14 +377,16 @@ do
                                                 }
                                                 Console.WriteLine("\nPrecione culquier tecla para continuar");
                                                 Console.ReadKey();
-                                            break;
+                                                break;
+
                                             case 2:
-                                            Console.Write("Buscar:");
-                                            string eliminarTrabajador = Console.ReadLine();
-                                            usuario.EliminarUsuario(eliminarTrabajador, asignaturas.asignatura[0]);
-                                            Console.WriteLine("\nPrecione culquier tecla para continuar");
+                                                Console.Write("Buscar:");
+                                                string eliminarTrabajador = Console.ReadLine();
+                                                usuario.EliminarUsuario(eliminarTrabajador, asignaturas.asignatura[0]);
+                                                Console.WriteLine("\nPrecione culquier tecla para continuar");
                                                 Console.ReadKey();
-                                            break;
+                                                break;
+
                                             default:
                                                 funciones.OpcionNoExistente();
                                                 break;
@@ -436,42 +454,42 @@ do
                                     Console.WriteLine($"Total:Q{argumentos.ExtraerIngresosEgresos(asignaturas.comentarios[1]) - argumentos.ExtraerIngresosEgresos(asignaturas.comentarios[2])}");
                                     Console.WriteLine("\nPrecione culquier tecla para continuar");
                                     Console.ReadKey();
-                                break;
+                                    break;
 
                                 case 3:
-                                do
-                                {
-                                    Console.Clear();
-                                    Console.WriteLine("-- Eliminar Ingreso o Egreso ---");
-                                    menus.OpcionIngresosEgresos();
-                                    opcion = funciones.ValidarMenu();
-                                    Console.Clear();
-                                    switch(opcion)
+                                    do
                                     {
-                                        case 0:
-                                            funciones.Regresar();
-                                            break;
-                                        case 1:
-                                            Console.WriteLine("--- Ingresos ---");
-                                            Console.Write("Codigo:");
-                                            string eliminarIngreso = Console.ReadLine();
-                                            argumentos.EliminarIngresoEgresoYComentario(eliminarIngreso, asignaturas.comentarios[1]);
-                                            Console.WriteLine("\nPrecione culquier tecla para continuar");
-                                            Console.ReadKey();
-                                            break;
-                                        case 2:
-                                            Console.WriteLine("--- Egresos ---");
-                                            Console.Write("Codigo:");
-                                            string eliminarEgreso = Console.ReadLine();
-                                            argumentos.EliminarIngresoEgresoYComentario(eliminarEgreso, asignaturas.comentarios[2]);
-                                            Console.WriteLine("\nPrecione culquier tecla para continuar");
-                                            Console.ReadKey();
-                                            break;
-                                        default:
-                                            funciones.OpcionNoExistente();
-                                            break;
-                                    }
-                                } while (opcion != 0);
+                                        Console.Clear();
+                                        Console.WriteLine("-- Eliminar Ingreso o Egreso ---");
+                                        menus.OpcionIngresosEgresos();
+                                        opcion = funciones.ValidarMenu();
+                                        Console.Clear();
+                                        switch(opcion)
+                                        {
+                                            case 0:
+                                                funciones.Regresar();
+                                                break;
+                                            case 1:
+                                                Console.WriteLine("--- Ingresos ---");
+                                                Console.Write("Codigo:");
+                                                string eliminarIngreso = Console.ReadLine();
+                                                argumentos.EliminarIngresoEgresoYComentario(eliminarIngreso, asignaturas.comentarios[1]);
+                                                Console.WriteLine("\nPrecione culquier tecla para continuar");
+                                                Console.ReadKey();
+                                                break;
+                                            case 2:
+                                                Console.WriteLine("--- Egresos ---");
+                                                Console.Write("Codigo:");
+                                                string eliminarEgreso = Console.ReadLine();
+                                                argumentos.EliminarIngresoEgresoYComentario(eliminarEgreso, asignaturas.comentarios[2]);
+                                                Console.WriteLine("\nPrecione culquier tecla para continuar");
+                                                Console.ReadKey();
+                                                break;
+                                            default:
+                                                funciones.OpcionNoExistente();
+                                                break;
+                                        }
+                                    } while (opcion != 0);
                                     break;
 
                                 default:
@@ -487,15 +505,133 @@ do
                             Console.Clear();
                             menus.MenuFotocopiadora();
                             subMenus = funciones.ValidarMenu();
-                            switch(subMenus)
+                            Console.Clear();
+                            switch (subMenus)
                             { 
                                 case 0:
                                     funciones.Regresar();
                                     break;
 
                                 case 1:
+                                    do
+                                    {
+                                        Console.Clear();
+                                        menus.OpcionSuministros();
+                                        opcion = funciones.ValidarMenu();
+                                        Console.Clear();
+                                        int cantidad;
+                                        switch (opcion)
+                                        { 
+                                            case 0:
+                                                funciones.Regresar();
+                                                break;
+
+                                            case 1:
+                                                Console.WriteLine("--- Agregar suministro ---");
+                                                Console.Write("Suministro a agregar (1.Toner / 2.Resma):");
+                                                int tipo = funciones.RangoEnteros(1,2);
+                                            if (tipo == 1)
+                                            {
+                                                Console.Write("Cantidad de copias de Toner:");
+                                            }
+                                            else
+                                            {
+                                                Console.Write("Cantidad de hojas:");
+                                            }
+                                                int agregar = funciones.RangoEnteros(10,10000);
+                                                Console.Write("Unidades:");
+                                                int cantidadSuministro = funciones.RangoEnteros(1, 100);
+                                                fotocopias.AgregarSuministro(asignaturas.suministro[tipo-1],agregar,cantidadSuministro);
+                                                break;
+
+                                            case 2:
+                                                Console.WriteLine("--- Ver suministros ---");
+                                                Console.WriteLine("\n*** Toner ***");
+                                                fotocopias.VerSuministros(asignaturas.suministro[0]);
+                                                Console.WriteLine("\n*** Resmas ***");
+                                                fotocopias.VerSuministros(asignaturas.suministro[1]);
+                                            Console.WriteLine("\nPrecione culquier tecla para continuar");
+                                            Console.ReadKey();
+                                            break;
+
+                                            default:
+                                                funciones.OpcionNoExistente();
+                                                break;
+                                        }
+                                    } while (opcion != 0);
                                     break;
-                                case 2: 
+
+                                case 2:
+                                    do
+                                    {
+                                        Console.Clear();
+                                        menus.OpcionFotocopias();
+                                        opcion = funciones.ValidarMenu();
+                                        Console.Clear();
+                                        switch(opcion)
+                                        {
+                                            case 0:
+                                                funciones.Regresar();
+                                                break;
+                                            case 1:
+                                                Console.WriteLine("--- fotocopias totales ---");
+                                                int copias;
+                                                funciones.ColorComentario("(Son todas las copias que a sacado durante toda su vida util)");
+                                                if (fotocopias.ContarCopias() == 0)
+                                                {
+                                                    Console.Write("Fotocopias totales:");
+                                                    copias = funciones.ValidarMenu();
+                                                    fotocopias.AgregarCopias(copias, "");
+                                                }
+                                                else
+                                                {
+                                                    bool seguro;
+                                                    do
+                                                    {
+                                                        Console.Write("¿Seguro que quiere modificar la cantidad de copias totales?(Si/No):");
+                                                        seguro = funciones.SIoNO();
+                                                    } while (seguro);
+                                                    if(seguro)
+                                                    {
+                                                        Console.Write("Fotocopias totales nevas:");
+                                                        copias = funciones.ValidarMenu();
+                                                        fotocopias.ModificarCopiasTotales(copias);
+                                                    }
+                                                    else
+                                                    {
+                                                        funciones.Regresar();
+                                                    }
+                                            }
+                                            break;
+
+                                            case 2:
+                                                Console.WriteLine("--- fotocopias sacadas por semana ---");
+                                                funciones.ColorComentario("Fecha del dia que se sacaron las copias ejemplo: 28/8/2000");
+                                                Console.Write("Fecha:");
+                                                DateTime fechaCopia = funciones.FechaArgumento();
+                                                int fotocopiasAbsolutas = fotocopias.ExtraerCopiasTotales();
+                                                funciones.ColorComentario("(Fotocopias totales que dice la hoja de estado) \n(la cantidad no puede ser menor a la ya establecida)");
+                                                Console.Write("fotocopias Totales:");
+                                                int fotocopiasNuevas = funciones.RangoEnteros(fotocopiasAbsolutas, fotocopiasAbsolutas*1000);
+                                                Console.WriteLine($"Fotocopias sacadas en total:{fotocopiasNuevas - fotocopiasAbsolutas}");
+                                                fotocopias.ModificarCopiasTotales(fotocopiasNuevas);
+                                                fotocopias.AgregarCopias(fotocopiasNuevas - fotocopiasAbsolutas, fechaCopia.ToString());
+                                                break;
+
+                                            case 3:
+                                                Console.WriteLine("--- Ver fotocopias sacadas por semana ---");
+                                                fotocopias.VerFotocopiasSacadas();
+                                                Console.WriteLine("\nPrecione culquier tecla para continuar");
+                                                Console.ReadKey();
+                                                break;
+
+                                            default:
+                                            funciones.OpcionNoExistente();
+                                            break;
+                                        }
+                                    } while (opcion != 0);
+                                    break;
+
                                 case 3:
                                 default:
                                 funciones.OpcionNoExistente();
@@ -505,8 +641,35 @@ do
                         break;
 
                     case 5:
-                        break;
-                    case 6:
+                        do 
+                        {
+                            Console.Clear();
+                            menus.MenuComentarios();
+                            subMenus = funciones.ValidarMenu();
+                            Console.Clear();
+                            switch (subMenus)
+                            {
+                                case 0:
+                                    funciones.Regresar();
+                                    break;
+
+                                case 1:
+                                    Console.WriteLine("--- Ver Comentarios ---");
+                                    argumentos.MostrarIngresosEgresosYComentarios(asignaturas.comentarios[0]);
+                                    Console.WriteLine("\nPrecione culquier tecla para continuar");
+                                    Console.ReadKey();
+                                    break;
+
+                                case 2:
+                                    Console.WriteLine("--- Enviar Comentarios ---");
+                                    argumentos.AgregarIngresosEgresosOComentarios(asignaturas.comentarios[0], funciones.IngresosEgresosYComentario(asignaturas.comentarios[0]));
+                                    break;
+
+                                default:
+                                    funciones.OpcionNoExistente();
+                                    break;
+                            }
+                        } while (subMenus != 0);
                         break;
                     default:
                         funciones.OpcionNoExistente();
@@ -520,13 +683,100 @@ do
         {
             do
             {
+                Console.Clear();
+                menus.MenuTrabajador();
+                menuPrincipal = funciones.ValidarMenu();
+                Console.Clear();
+                switch (menuPrincipal)
+                {
+                    case 0:
+                        Console.Write("Saliendo");
+                        Thread.Sleep(200);
+                        Console.Write(".");
+                        Thread.Sleep(200);
+                        Console.Write(".");
+                        Thread.Sleep(200);
+                        Console.Write(".");
+                        menu = false;
+                        break;
 
+                    case 1:
+                        if (inventario.ContarProductosLibreria() == 0 && inventario.ContarProductosTienda() == 0)
+                        {
+                            Console.WriteLine("No ahi ningun producto aun disponible!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("--- Ver todos los productos ---");
+                            Console.WriteLine("\n*** Libreria ***");
+                            inventario.MostarDatosLibreria();
+                            Console.WriteLine("\n*** Tienda ***");
+                            inventario.MostrarDatosTienda();
+                        }
+                        Console.WriteLine("\nPrecione culquier tecla para continuar");
+                        Console.ReadKey();
+                        break;
+
+                    case 2:
+                        Console.WriteLine("--- Administrar Ventas ---");
+                        Console.Write("Que porducto vendio(1.Libreria / 2.Tienda):");
+                        int tipoProducto = funciones.RangoEnteros(1,2);
+                        Console.Write("Clave del porducto:");
+                        string claveProducto = Console.ReadLine();
+                        if (tipoProducto == 1 && inventario.BuscarProductoLibreria(claveProducto) || tipoProducto == 2 && inventario.BuscarProductoTienda(claveProducto))
+                        {
+                            funciones.ColorComentario("No puede exeder la cantidad disponible");
+                            Console.Write("Cantidad de ventas:");
+                            int cantidadVentas = funciones.RangoEnteros(1, inventario.ExtraerCantidadProducto(asignaturas.producto[tipoProducto-1],claveProducto));
+                        }
+                        else
+                        {
+                            Console.WriteLine("Producto no encontrado!");
+                        }
+                        break;
+
+                    case 3:
+                        do
+                        {
+                            Console.Clear();
+                            menus.MenuComentarios();
+                            subMenus = funciones.ValidarMenu();
+                            Console.Clear();
+                            switch (subMenus)
+                            {
+                                case 0:
+                                    funciones.Regresar();
+                                    break;
+
+                                case 1:
+                                    Console.WriteLine("--- Ver Comentarios ---");
+                                    argumentos.MostrarIngresosEgresosYComentarios(asignaturas.comentarios[0]);
+                                    Console.WriteLine("\nPrecione culquier tecla para continuar");
+                                    Console.ReadKey();
+                                    break;
+
+                                case 2:
+                                    Console.WriteLine("--- Enviar Comentarios ---");
+                                    argumentos.AgregarIngresosEgresosOComentarios(asignaturas.comentarios[0], funciones.IngresosEgresosYComentario(asignaturas.comentarios[0]));
+                                    break;
+
+                                default:
+                                    funciones.OpcionNoExistente();
+                                    break;
+                            }
+                        } while (subMenus != 0);
+                        break;
+
+                    default:
+                        funciones.OpcionNoExistente();
+                        break;
+                }
             }while(menu);
         }
-   // }
-    //catch(Exception erorr)
-    //{
-     //   Console.WriteLine($"Ocurrio un error!: {erorr.Message}");
-     //   Thread.Sleep(2000);
-    //}
+   }
+   catch(Exception erorr)
+   {
+       Console.WriteLine($"Ocurrio un error!: {erorr.Message}");
+       Thread.Sleep(2000);
+  }
 } while (menu);

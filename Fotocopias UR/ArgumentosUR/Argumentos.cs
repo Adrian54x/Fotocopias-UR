@@ -1,14 +1,17 @@
-﻿using System;
+﻿using Fotocopias_UR.GeneralUR;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Text;
 
-namespace Fotocopias_UR
+namespace Fotocopias_UR.ArgumentosUR
 {
     internal class Argumentos
     {
         private string conexionArgumentos = "Data Source = Argumentos";
         private DatosGlobales g = new DatosGlobales();
+
+        //Crear tablas
 
         public void CrearTablasIngresosEgresos()
         {
@@ -43,26 +46,28 @@ namespace Fotocopias_UR
             }
         }
 
+        // Agregar Ingresos, Egresos y Comentarios
+
         public void AgregarIngresosEgresosOComentarios(string tipo, Comentarios datos)
         {
             DatosGlobales f = new DatosGlobales();
-            string agrgar = "";
+            string agregar = "";
             if (tipo == f.comentarios[0])
             {
-                agrgar = "INSERT INTO Comentario(Fecha, Motivo, Autor) VALUES(@fecha, @motivo, @autor);";
+                agregar = "INSERT INTO Comentario(Fecha, Motivo, Autor) VALUES(@fecha, @motivo, @autor);";
             }
             if(tipo == f.comentarios[1])
             {
-                agrgar = "INSERT INTO Ingresos(Fecha, Cantidad, Motivo, Autor) VALUES(@fecha, @cantidad, @motivo, @autor);";
+                agregar = "INSERT INTO Ingresos(Fecha, Cantidad, Motivo, Autor) VALUES(@fecha, @cantidad, @motivo, @autor);";
             }
             if(tipo == f.comentarios[2])
             {
-                agrgar = "INSERT INTO Egresos(Fecha, Cantidad, Motivo, Autor) VALUES(@fecha, @cantidad, @motivo, @autor);";
+                agregar = "INSERT INTO Egresos(Fecha, Cantidad, Motivo, Autor) VALUES(@fecha, @cantidad, @motivo, @autor);";
             }
             using (SQLiteConnection aiec = new SQLiteConnection(conexionArgumentos))
             {
                 aiec.Open();
-                SQLiteCommand comandoAgregar = new SQLiteCommand(agrgar, aiec);
+                SQLiteCommand comandoAgregar = new SQLiteCommand(agregar, aiec);
                 comandoAgregar.Parameters.AddWithValue("@fecha", datos.Fecha);
                 comandoAgregar.Parameters.AddWithValue("@motivo", datos.Movito);
                 comandoAgregar.Parameters.AddWithValue("@autor", datos.Autor);
@@ -74,6 +79,9 @@ namespace Fotocopias_UR
 
             }
         }
+
+
+        // Mostrar Ingresos, Egresos y Comentarios
 
         public void MostrarIngresosEgresosYComentarios(string tipo)
         {
@@ -99,7 +107,7 @@ namespace Fotocopias_UR
                 {
                     while (mostrarMIEC.Read())
                     {
-                        Console.WriteLine($"Codigo:{mostrarMIEC["Codigo"]} | Fecha:{mostrarMIEC["Fecha"]} | Motivo:{mostrarMIEC["Motivo"]} | Echo por:{mostrarMIEC["Autor"]}");
+                        Console.WriteLine($"Fecha:{mostrarMIEC["Fecha"]} | Comentario:{mostrarMIEC["Motivo"]} | Echo por:{mostrarMIEC["Autor"]}");
                         Console.WriteLine();
                     }
                 }
@@ -114,6 +122,8 @@ namespace Fotocopias_UR
                 }
             }
         }
+
+        // Extraer Ingresos y Egresos
 
         public double ExtraerIngresosEgresos(string tipo)
         {
@@ -139,6 +149,8 @@ namespace Fotocopias_UR
             }
             return ingresoEgreso;
         }
+
+        // Eliminar Ingresos, Egresos y Comentarios
 
         public void EliminarIngresoEgresoYComentario(string codigo, string tipo)
         {

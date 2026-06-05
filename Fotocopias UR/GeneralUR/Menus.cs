@@ -40,6 +40,7 @@ namespace Fotocopias_UR.GeneralUR
                     if(buscar.BuscarValidacionTrabajador(usuarioIngreso, passIngreso))
                     {
                         asignado = "Trabajador";
+                        DatosGlobales.usuarioActivoNombre = usuarioIngreso;
                     }
                 }
                 if (intentos == 0)
@@ -60,8 +61,18 @@ namespace Fotocopias_UR.GeneralUR
             Console.WriteLine("3. Ingresos y Egresos");
             Console.WriteLine("4. Fotocopiadora");
             Console.WriteLine("5. Comentarios");
-            Console.WriteLine("6. Herramientas disponibles");
             Console.WriteLine("0. Salir.");
+            Console.Write("Elija una opcion:");
+        }
+
+        public void MenuTrabajador()
+        {
+            Console.Clear();
+            Console.WriteLine("=== Fotocopias UR ===");
+            Console.WriteLine("1. Ver todos los productos");
+            Console.WriteLine("2. Administrar Ventas");
+            Console.WriteLine("3. Comentarios");
+            Console.WriteLine("0. Salir");
             Console.Write("Elija una opcion:");
         }
 
@@ -150,6 +161,15 @@ namespace Fotocopias_UR.GeneralUR
             Console.WriteLine("1. Agregar fotocopias totales");
             Console.WriteLine("2. Agragar fotocopias sacadas por semana");
             Console.WriteLine("3. Ver fotocopias sacadas por semana");
+            Console.WriteLine("0. Regresar.");
+            Console.Write("Elija una opcion:");
+        }
+
+        public void MenuComentarios()
+        {
+            Console.WriteLine("--- Comentarios ---");
+            Console.WriteLine("1. Ver Comentarios");
+            Console.WriteLine("2. Enviar Comentarios");
             Console.WriteLine("0. Regresar.");
             Console.Write("Elija una opcion:");
         }

@@ -1,4 +1,5 @@
-﻿using Fotocopias_UR.ProductosUR;
+﻿using Fotocopias_UR.ArgumentosUR;
+using Fotocopias_UR.ProductosUR;
 using Fotocopias_UR.UsuariosUR;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,20 @@ namespace Fotocopias_UR.GeneralUR
     internal class Funciones
     {
         // Validaciones simples
+
+        public int RangoEnteros(int inicio, int fin)
+        {
+            int rango;
+            do
+            {
+                if (!int.TryParse(Console.ReadLine(), out rango) || rango < inicio  || rango > fin)
+                {
+                    Error();
+                    rango = -1;
+                }
+            } while (!int.TryParse(rango.ToString(), out int x) || rango < inicio || rango > fin);
+            return rango;
+        }
 
         public string ValidarTexto(int cantidadMinimaCaracters)
         {
