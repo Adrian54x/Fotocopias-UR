@@ -11,7 +11,13 @@ namespace Fotocopias_UR.ArgumentosUR
         public double Cantidad
         {
             get { return cantidad; }
-            set { cantidad = value; }
+            set 
+            { 
+                if(double.TryParse(value.ToString(), out double x))
+                    cantidad = value; 
+                else
+                    Console.WriteLine("Cantidad no valida!");
+            }
         }
 
         public IngresoEgreso(DateTime fecha, string movito, string autor, double cantida) : base(fecha, movito, autor)

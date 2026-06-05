@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Fotocopias_UR.GeneralUR;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -25,13 +26,25 @@ namespace Fotocopias_UR.ArgumentosUR
         public string Movito
         {
             get { return movito; }
-            set { movito = value; }
+            set 
+            {
+                if (DateTime.TryParse(value.ToString(), out DateTime x) && x.Date < DateTime.Today && x.Year > 2022)
+                    movito = value; 
+                else
+                    Console.WriteLine("Motivo no valido!");
+            }
         }
 
         public string Autor
         {
             get { return autor; }
-            set {  autor = value; }
+            set 
+            {  
+                if(DatosGlobales.usuarioActivoNombre == value)
+                    autor = value; 
+                else
+                    Console.WriteLine("Usuario no valido!");
+            }
         }
 
         public Comentarios(DateTime fecha, string movito, string autor)
