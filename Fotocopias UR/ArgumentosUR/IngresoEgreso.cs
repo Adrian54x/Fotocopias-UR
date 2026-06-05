@@ -13,7 +13,7 @@ namespace Fotocopias_UR.ArgumentosUR
             get { return cantidad; }
             set 
             { 
-                if(double.TryParse(value.ToString(), out double x))
+                if(double.TryParse(value.ToString(), out double x)) 
                     cantidad = value; 
                 else
                     Console.WriteLine("Cantidad no valida!");
