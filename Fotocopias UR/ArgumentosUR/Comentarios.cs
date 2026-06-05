@@ -28,7 +28,7 @@ namespace Fotocopias_UR.ArgumentosUR
             get { return movito; }
             set 
             {
-                if (DateTime.TryParse(value.ToString(), out DateTime x) && x.Date < DateTime.Today && x.Year > 2022)
+                if (value.Length > 5)
                     movito = value; 
                 else
                     Console.WriteLine("Motivo no valido!");
