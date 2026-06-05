@@ -253,12 +253,12 @@ namespace Fotocopias_UR.ProductosUR
             string modificar = "", conexion = "";
             if (asignado == g.producto[0])
             {
-                modificar = "SELECT UnidadesDisponibles FROM InventarioLibreria WHERE Codigo = @codigo";
+                modificar = "UPDATE InventarioLibreria SET UnidadesDisponibles = @unidadesDisponibles WHERE Codigo = @codigo";
                 conexion = conexionInventarioLibreria;
             }
             if(asignado == g.producto[1])
             {
-                modificar = "SELECT UnidadesDisponibles FROM InventarioTienda WHERE Codigo = @codigo";
+                modificar = "UPDATE UnidadesDisponibles SET UnidadesDisponibles = @unidadesDisponibles WHERE Codigo = @codigo";
                 conexion = conexionInventarioTienda;
             }
             using (SQLiteConnection mp = new SQLiteConnection(conexion))
@@ -290,12 +290,16 @@ namespace Fotocopias_UR.ProductosUR
             using (SQLiteConnection ecp = new SQLiteConnection(conexion))
             {
                 ecp.Open();
-                SQLiteCommand comandoExtraer = new SQLiteCommand(extraer, ecp);
-                comandoExtraer.Parameters.AddWithValue("@codigo", codigo);
-                SQLiteDataReader extraerP = comandoExtraer.ExecuteReader();
-                if (extraerP.Read())
+                using (SQLiteCommand comandoExtraer = new SQLiteCommand(extraer, ecp))
                 {
-                    disponibles = int.Parse(extraerP["UnidadesDisponibles"].ToString());
+                    comandoExtraer.Parameters.AddWithValue("@codigo", codigo);
+                    using (SQLiteDataReader extraerP = comandoExtraer.ExecuteReader())
+                    {
+                        if (extraerP.Read())
+                        {
+                            disponibles = int.Parse(extraerP["UnidadesDisponibles"].ToString());
+                        }
+                    }
                 }
             }
             return disponibles;

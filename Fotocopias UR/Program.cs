@@ -727,11 +727,16 @@ do
                         {
                             funciones.ColorComentario("No puede exeder la cantidad disponible");
                             Console.Write("Cantidad de ventas:");
-                            int cantidadVentas = funciones.RangoEnteros(1, inventario.ExtraerCantidadProducto(asignaturas.producto[tipoProducto-1],claveProducto));
+                            int cantidadActual = inventario.ExtraerCantidadProducto(asignaturas.producto[tipoProducto - 1], claveProducto);
+                            int cantidadVentas = funciones.RangoEnteros(1, cantidadActual);
+                            int total = cantidadActual -cantidadVentas;
+                            inventario.ModificarProducto(asignaturas.producto[tipoProducto - 1], claveProducto,total);
                         }
                         else
                         {
                             Console.WriteLine("Producto no encontrado!");
+                            Console.WriteLine("\nPrecione culquier tecla para continuar");
+                            Console.ReadKey();
                         }
                         break;
 
