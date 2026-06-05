@@ -141,7 +141,6 @@ namespace Fotocopias_UR.GeneralUR
             Console.WriteLine("--- Fotocopiadora ---");
             Console.WriteLine("1. Suministros");
             Console.WriteLine("2. Fotocopias");
-            Console.WriteLine("3. Porcentaje de toner Actual");
             Console.WriteLine("0. Regresar.");
             Console.Write("Elija una opcion:");
         }
